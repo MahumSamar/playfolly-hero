@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Playfolly — Play beautiful</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    /* everything scales off the 2000px-wide reference frame */
+    --u: clamp(0.62px, 0.05vw, 1.2px);
+    --gutter: calc(var(--u) * 50);
+  }
+
+  html, body { height: 100%; background: #8a2c14; }
+
+  body {
+    font-family: "Outfit", "Sofia Pro", "Avenir Next", system-ui, sans-serif;
+    color: #fff;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 480px;
+    width: 100%;
+    overflow: hidden;
+    isolation: isolate;
+    background: #a8421c;
+  }
+
+  .hero__media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+    z-index: -1;
+  }
+
+  .hero__content {
+    position: absolute;
+    top: calc(var(--u) * 125);
+    left: var(--gutter);
+    width: calc(var(--u) * 640);
+  }
+
+  .hero__actions {
+    display: flex;
+    gap: calc(var(--u) * 22);
+    margin-bottom: calc(var(--u) * 22);
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--u) * 9);
+    height: calc(var(--u) * 50);
+    padding: 0 calc(var(--u) * 19);
+    border-radius: 999px;
+    background: #fff;
+    color: #000;
+    font-size: calc(var(--u) * 20);
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform .25s ease, background-color .25s ease;
+  }
+  .pill:hover { transform: translateY(-2px); background: #fff4e2; }
+  .pill svg { width: calc(var(--u) * 21); height: calc(var(--u) * 21); flex: none; }
+
+  .hero__legal {
+    font-size: calc(var(--u) * 25);
+    font-weight: 400;
+    line-height: 1.33;
+    letter-spacing: -0.003em;
+  }
+
+  .hero__title {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    font-weight: 700;
+    font-size: 15.9vw; /* refined by fitTitle() */
+    line-height: 1;
+    letter-spacing: -0.045em;
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <video class="hero__media" autoplay muted loop playsinline preload="auto"
+         poster="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261008_073453_0542f71e-818e-4c38-bd91-3fd083239480.png">
+    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261008_073547_323fa7ce-1dc9-49f2-98a2-b12ebcc2db41.mp4" type="video/mp4">
+  </video>
+
+  <div class="hero__content">
+    <div class="hero__actions">
+      <a class="pill" href="https://instagram.com/myplayfolly" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="1" y="1" width="22" height="22" rx="6.5" fill="#000"/>
+          <circle cx="12" cy="12" r="5.6" fill="#fff"/>
+          <circle cx="18.1" cy="5.9" r="1.7" fill="#fff"/>
+        </svg>
+        @myplayfolly
+      </a>
+      <a class="pill" href="#contact">Email us</a>
+    </div>
+
+    <p class="hero__legal">The Playfolly design is a registered design in New Zealand and Australia. "Playfolly" is a registered trade mark in these regions. Further registrations and protections are pending in the United States, United Kingdom, and the European Union.</p>
+  </div>
+
+  <h1 class="hero__title" id="title">Play beautiful</h1>
+</section>
+
+<script>
+  // Fit the headline edge to edge and sit its baseline just above the fold
+  // so the descender of the "y" is cropped, as in the reference.
+  (function () {
+    var title = document.getElementById('title');
+    var hero = title.parentElement;
+    function fitTitle() {
+      var w = hero.clientWidth;
+      title.style.fontSize = '100px';
+      var size = 100 * (w * 0.976) / title.getBoundingClientRect().width;
+      title.style.fontSize = size + 'px';
+      title.style.bottom = (-0.005 * size) + 'px';
+    }
+    fitTitle();
+    window.addEventListener('resize', fitTitle);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitTitle);
+  })();
+</script>
+</body>
+</html>
